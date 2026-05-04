@@ -1,0 +1,848 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>內湖國小校慶 ・ 感謝捐款牆</title>
+
+<!-- 字體：Noto Serif TC（標題）、霞鶩文楷（手寫感）、Caveat（英數手寫） -->
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Caveat:wght@400;700&family=Noto+Serif+TC:wght@500;700;900&display=swap" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/lxgw-wenkai-tc-webfont@1.1.0/style.css" rel="stylesheet">
+
+<style>
+  /* ---- 設定 ---- */
+  :root {
+    --cream: #FBF6EE;
+    --cream-deep: #F2E8D5;
+    --brick: #C75B3D;
+    --brick-deep: #A0432A;
+    --olive: #7A9B5E;
+    --gold: #D4A24C;
+    --coffee: #3E2A1F;
+    --coffee-soft: #5C4538;
+    --paper-shadow: 0 2px 4px rgba(62, 42, 31, 0.08),
+                    0 8px 24px rgba(62, 42, 31, 0.12),
+                    0 16px 40px rgba(62, 42, 31, 0.06);
+    --font-display: 'Noto Serif TC', serif;
+    --font-hand: 'LXGW WenKai TC', 'Caveat', cursive;
+    --font-body: 'LXGW WenKai TC', serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  html, body {
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    font-family: var(--font-body);
+    color: var(--coffee);
+    background: var(--cream);
+  }
+
+  /* ---- 背景：紙張紋理 + 暖色漸層 ---- */
+  body::before {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background:
+      radial-gradient(ellipse at 20% 0%, rgba(212, 162, 76, 0.18) 0%, transparent 50%),
+      radial-gradient(ellipse at 80% 100%, rgba(199, 91, 61, 0.12) 0%, transparent 50%),
+      linear-gradient(180deg, #FDF9F1 0%, #F5EBD9 100%);
+    z-index: -2;
+  }
+
+  body::after {
+    content: '';
+    position: fixed;
+    inset: 0;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0.24 0 0 0 0 0.16 0 0 0 0 0.12 0 0 0 0.06 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    opacity: 0.5;
+    pointer-events: none;
+    z-index: -1;
+  }
+
+  /* ---- 整體佈局：上中下三區 ---- */
+  .stage {
+    display: grid;
+    grid-template-rows: auto 1fr auto;
+    width: 100vw;
+    height: 100vh;
+    padding: 28px 48px 12px;
+    gap: 16px;
+  }
+
+  /* ---- 頂部：標題 + 累計總額 ---- */
+  .header {
+    display: grid;
+    grid-template-columns: 1fr auto 1fr;
+    align-items: center;
+    gap: 32px;
+    padding: 8px 16px 12px;
+    border-bottom: 2px dashed rgba(199, 91, 61, 0.35);
+    position: relative;
+  }
+
+  .header::before, .header::after {
+    content: '❦';
+    position: absolute;
+    bottom: -14px;
+    color: var(--brick);
+    background: var(--cream);
+    padding: 0 12px;
+    font-size: 22px;
+  }
+  .header::before { left: 50%; transform: translateX(-50%); }
+  .header::after { display: none; }
+
+  .school-info {
+    text-align: left;
+  }
+  .school-info .school-name {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(24px, 2.2vw, 38px);
+    color: var(--brick-deep);
+    letter-spacing: 4px;
+    line-height: 1.1;
+  }
+  .school-info .school-sub {
+    font-family: var(--font-hand);
+    font-size: clamp(14px, 1.1vw, 20px);
+    color: var(--coffee-soft);
+    margin-top: 4px;
+    letter-spacing: 2px;
+  }
+
+  .title-center {
+    text-align: center;
+    position: relative;
+  }
+  .title-center .title-main {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(36px, 3.6vw, 64px);
+    color: var(--coffee);
+    letter-spacing: 8px;
+    line-height: 1;
+    text-shadow: 2px 2px 0 rgba(212, 162, 76, 0.3);
+  }
+  .title-center .title-sub {
+    font-family: var(--font-hand);
+    font-size: clamp(18px, 1.4vw, 26px);
+    color: var(--brick);
+    margin-top: 8px;
+    letter-spacing: 3px;
+  }
+  .title-center .title-sub::before,
+  .title-center .title-sub::after {
+    content: '✦';
+    margin: 0 12px;
+    color: var(--gold);
+  }
+
+  .total-box {
+    text-align: right;
+    padding: 8px 0;
+  }
+  .total-label {
+    font-family: var(--font-display);
+    font-size: clamp(14px, 1vw, 20px);
+    color: var(--coffee-soft);
+    letter-spacing: 4px;
+    margin-bottom: 4px;
+  }
+  .total-amount {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(36px, 3.4vw, 60px);
+    color: var(--brick);
+    line-height: 1;
+    letter-spacing: 1px;
+    font-variant-numeric: tabular-nums;
+  }
+  .total-amount .currency {
+    font-size: 0.5em;
+    margin-right: 6px;
+    color: var(--coffee-soft);
+  }
+  .total-count {
+    font-family: var(--font-hand);
+    font-size: clamp(14px, 1vw, 18px);
+    color: var(--olive);
+    margin-top: 6px;
+    letter-spacing: 2px;
+  }
+  .total-count strong {
+    color: var(--brick-deep);
+    font-size: 1.4em;
+    margin: 0 4px;
+    font-family: var(--font-display);
+    font-weight: 700;
+  }
+
+  /* ---- 中間：卡片牆 ---- */
+  .wall {
+    position: relative;
+    overflow: hidden;
+    padding: 16px 8px;
+  }
+  .wall-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: minmax(0, 1fr);
+    gap: 18px 22px;
+    height: 100%;
+    align-content: start;
+  }
+
+  /* 在較高的螢幕（電視），改成 4x3 共 12 張同時呈現 */
+  @media (min-aspect-ratio: 16/10) {
+    .wall-grid {
+      grid-template-rows: repeat(3, 1fr);
+    }
+  }
+
+  /* ---- 卡片設計 ---- */
+  .card {
+    position: relative;
+    background: linear-gradient(180deg, #FFFCF5 0%, #FBF1DD 100%);
+    border-radius: 4px;
+    padding: 18px 20px 16px;
+    box-shadow: var(--paper-shadow);
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    transform-origin: center;
+    animation: card-arrive 1.6s cubic-bezier(0.34, 1.56, 0.64, 1) both;
+    overflow: hidden;
+  }
+
+  .card::before {
+    /* 紙張紋理 */
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='100' height='100'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='1'/><feColorMatrix values='0 0 0 0 0.4 0 0 0 0 0.28 0 0 0 0 0.18 0 0 0 0.04 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+    pointer-events: none;
+    opacity: 0.6;
+  }
+
+  .card::after {
+    /* 左上角紅色緞帶愛心 */
+    content: '♥';
+    position: absolute;
+    top: -2px;
+    left: 14px;
+    width: 28px;
+    height: 38px;
+    background: linear-gradient(180deg, var(--brick) 0%, var(--brick-deep) 100%);
+    color: #FFF8E8;
+    font-size: 14px;
+    line-height: 30px;
+    text-align: center;
+    clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 80%, 0 100%);
+    box-shadow: 2px 2px 4px rgba(62, 42, 31, 0.2);
+  }
+
+  /* 旋轉變化（用 nth-child 讓卡片角度自然） */
+  .card:nth-child(4n+1) { transform: rotate(-1.6deg); }
+  .card:nth-child(4n+2) { transform: rotate(1.2deg); }
+  .card:nth-child(4n+3) { transform: rotate(-0.8deg); }
+  .card:nth-child(4n+4) { transform: rotate(2deg); }
+
+  .card .donor {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(20px, 1.8vw, 30px);
+    color: var(--coffee);
+    letter-spacing: 2px;
+    margin-top: 18px;
+    margin-left: 36px;
+    line-height: 1.2;
+    word-break: break-word;
+  }
+
+  .card .item {
+    font-family: var(--font-hand);
+    font-size: clamp(14px, 1.05vw, 18px);
+    color: var(--coffee-soft);
+    margin-top: 8px;
+    letter-spacing: 1px;
+    line-height: 1.4;
+  }
+  .card .item::before {
+    content: '— ';
+    color: var(--olive);
+  }
+
+  .card .amount {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(15px, 1.15vw, 21px);
+    color: var(--brick);
+    margin-top: 12px;
+    padding-top: 10px;
+    border-top: 1px dotted rgba(199, 91, 61, 0.35);
+    letter-spacing: 1px;
+    line-height: 1.4;
+  }
+
+  .card .time {
+    font-family: var(--font-hand);
+    font-size: clamp(12px, 0.85vw, 15px);
+    color: var(--olive);
+    margin-top: 6px;
+    letter-spacing: 1px;
+  }
+
+  /* 新卡片進場動畫 */
+  @keyframes card-arrive {
+    0% {
+      opacity: 0;
+      transform: scale(0.3) rotate(0deg);
+    }
+    50% {
+      opacity: 1;
+      transform: scale(1.1) rotate(0deg);
+    }
+    100% {
+      opacity: 1;
+      /* rotate 由 nth-child 接管 */
+    }
+  }
+
+  /* ---- 新捐款彈窗 ---- */
+  .popup {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%) scale(0);
+    width: min(60vw, 800px);
+    background: linear-gradient(180deg, #FFFCF5 0%, #FAEEDB 100%);
+    border-radius: 12px;
+    padding: 48px 56px;
+    box-shadow: 0 20px 60px rgba(62, 42, 31, 0.3),
+                0 0 0 8px rgba(199, 91, 61, 0.15),
+                0 0 0 14px rgba(212, 162, 76, 0.1);
+    z-index: 100;
+    text-align: center;
+    pointer-events: none;
+    transition: transform 0.6s cubic-bezier(0.34, 1.56, 0.64, 1), opacity 0.4s;
+    opacity: 0;
+  }
+  .popup.show {
+    transform: translate(-50%, -50%) scale(1);
+    opacity: 1;
+  }
+  .popup .popup-label {
+    font-family: var(--font-display);
+    font-size: clamp(20px, 1.6vw, 28px);
+    color: var(--brick);
+    letter-spacing: 8px;
+    margin-bottom: 18px;
+  }
+  .popup .popup-label::before,
+  .popup .popup-label::after {
+    content: '✦';
+    margin: 0 16px;
+    color: var(--gold);
+  }
+  .popup .popup-name {
+    font-family: var(--font-display);
+    font-weight: 900;
+    font-size: clamp(48px, 5vw, 80px);
+    color: var(--coffee);
+    margin: 12px 0;
+    letter-spacing: 4px;
+  }
+  .popup .popup-item {
+    font-family: var(--font-hand);
+    font-size: clamp(20px, 1.6vw, 28px);
+    color: var(--coffee-soft);
+    letter-spacing: 2px;
+    margin: 10px 0;
+  }
+  .popup .popup-amount {
+    font-family: var(--font-display);
+    font-weight: 700;
+    font-size: clamp(24px, 2vw, 34px);
+    color: var(--brick-deep);
+    margin-top: 18px;
+    letter-spacing: 2px;
+  }
+
+  /* ---- 底部跑馬燈 ---- */
+  .marquee {
+    background: linear-gradient(90deg, rgba(199, 91, 61, 0.06) 0%, rgba(199, 91, 61, 0.12) 50%, rgba(199, 91, 61, 0.06) 100%);
+    border-top: 2px dashed rgba(199, 91, 61, 0.35);
+    border-bottom: 2px dashed rgba(199, 91, 61, 0.35);
+    padding: 12px 0;
+    overflow: hidden;
+    position: relative;
+  }
+  .marquee::before {
+    content: '感謝您 ❦ THANK YOU';
+    position: absolute;
+    left: 0;
+    top: 50%;
+    transform: translateY(-50%);
+    background: var(--brick);
+    color: var(--cream);
+    padding: 8px 20px;
+    font-family: var(--font-display);
+    font-weight: 700;
+    letter-spacing: 4px;
+    font-size: clamp(14px, 1vw, 18px);
+    z-index: 2;
+    box-shadow: 4px 0 12px rgba(199, 91, 61, 0.3);
+  }
+  .marquee-track {
+    display: flex;
+    gap: 80px;
+    animation: marquee 60s linear infinite;
+    padding-left: 240px;
+    white-space: nowrap;
+    font-family: var(--font-hand);
+    font-size: clamp(16px, 1.2vw, 22px);
+    color: var(--coffee);
+    letter-spacing: 2px;
+  }
+  .marquee-track .m-item {
+    display: inline-flex;
+    align-items: center;
+    gap: 12px;
+  }
+  .marquee-track .m-item .m-heart {
+    color: var(--brick);
+  }
+  .marquee-track .m-item .m-name {
+    font-family: var(--font-display);
+    font-weight: 700;
+    color: var(--coffee);
+  }
+  .marquee-track .m-item .m-amount {
+    color: var(--brick);
+  }
+  @keyframes marquee {
+    0% { transform: translateX(0); }
+    100% { transform: translateX(-50%); }
+  }
+
+  /* ---- 狀態與錯誤指示 ---- */
+  .status {
+    position: fixed;
+    bottom: 12px;
+    right: 16px;
+    font-family: var(--font-hand);
+    font-size: 12px;
+    color: var(--coffee-soft);
+    opacity: 0.5;
+    z-index: 50;
+  }
+  .status .dot {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--olive);
+    margin-right: 4px;
+    vertical-align: middle;
+    animation: pulse 2s infinite;
+  }
+  .status.error .dot { background: var(--brick); }
+  @keyframes pulse {
+    0%, 100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+
+  /* ---- 空狀態 ---- */
+  .empty {
+    grid-column: 1 / -1;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    color: var(--coffee-soft);
+    font-family: var(--font-hand);
+    font-size: clamp(20px, 1.8vw, 32px);
+    text-align: center;
+    height: 100%;
+    opacity: 0.4;
+    letter-spacing: 4px;
+  }
+  .empty .empty-icon {
+    font-size: 80px;
+    color: var(--brick);
+    margin-bottom: 16px;
+    opacity: 0.5;
+  }
+</style>
+</head>
+<body>
+
+<div class="stage">
+  <!-- 頂部 -->
+  <div class="header">
+    <div class="school-info">
+      <div class="school-name">內湖國民小學</div>
+      <div class="school-sub">Hsinchu City Neihu Elementary School</div>
+    </div>
+    <div class="title-center">
+      <div class="title-main">校慶感謝牆</div>
+      <div class="title-sub">點滴愛心 ・ 滿載感恩</div>
+    </div>
+    <div class="total-box">
+      <div class="total-label">累計善款</div>
+      <div class="total-amount">
+        <span class="currency">NT$</span><span id="totalNum">0</span>
+      </div>
+      <div class="total-count">
+        共 <strong id="totalCount">0</strong> 位善心人士
+      </div>
+    </div>
+  </div>
+
+  <!-- 中間：卡片牆 -->
+  <div class="wall">
+    <div class="wall-grid" id="wallGrid">
+      <div class="empty">
+        <div class="empty-icon">❦</div>
+        <div>感謝牆等待第一筆愛心</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 底部：跑馬燈 -->
+  <div class="marquee">
+    <div class="marquee-track" id="marqueeTrack">
+      <div class="m-item">
+        <span class="m-heart">♥</span>
+        <span class="m-name">校慶當日捐款將即時顯示於此</span>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- 新捐款彈窗 -->
+<div class="popup" id="popup">
+  <div class="popup-label">感謝</div>
+  <div class="popup-name" id="popupName">—</div>
+  <div class="popup-item" id="popupItem">—</div>
+  <div class="popup-amount" id="popupAmount">—</div>
+</div>
+
+<!-- 連線狀態 -->
+<div class="status" id="status">
+  <span class="dot"></span><span id="statusText">連線中</span>
+</div>
+
+<script>
+  /* ============================================================
+     設定區：請將 GAS_URL 改成你部署的 GAS 網頁應用程式網址
+     ============================================================ */
+  const CONFIG = {
+    // 部署後填入：https://script.google.com/macros/s/.../exec
+    GAS_URL: 'https://script.google.com/macros/s/AKfycbzn_UO614Go-WJLDHQjgsy-1bVml3xPUFojsK1piPe5d-4pcGNwpMEgHVaSvhxeX_kE/exec',
+
+    POLL_INTERVAL_MS: 15000,   // 輪詢間隔（毫秒）
+    MAX_CARDS: 12,             // 牆上最多顯示幾張卡片
+    MAX_MARQUEE: 20,           // 跑馬燈最多幾筆
+    POPUP_DURATION_MS: 6000,   // 新捐款彈窗顯示時間
+    DEMO_MODE: true            // 沒有 GAS_URL 時自動進 demo 模式
+  };
+
+  /* ============================================================ */
+
+  const state = {
+    knownIds: new Set(),
+    donations: [],
+    totalAmount: 0,
+    totalCount: 0,
+    initialized: false,
+    popupQueue: [],
+    popupShowing: false
+  };
+
+  // ---- DOM ----
+  const $ = (id) => document.getElementById(id);
+  const wallGrid = $('wallGrid');
+  const marqueeTrack = $('marqueeTrack');
+  const totalNumEl = $('totalNum');
+  const totalCountEl = $('totalCount');
+  const popup = $('popup');
+  const popupName = $('popupName');
+  const popupItem = $('popupItem');
+  const popupAmount = $('popupAmount');
+  const statusEl = $('status');
+  const statusText = $('statusText');
+
+  // ---- 千分位 ----
+  function fmt(n) {
+    return Number(n).toLocaleString('en-US');
+  }
+
+  // ---- 滾動數字（odometer） ----
+  let totalAnimRAF = null;
+  function animateTotal(from, to) {
+    cancelAnimationFrame(totalAnimRAF);
+    const dur = 1200;
+    const start = performance.now();
+    function step(now) {
+      const t = Math.min(1, (now - start) / dur);
+      const eased = 1 - Math.pow(1 - t, 3);
+      const cur = Math.round(from + (to - from) * eased);
+      totalNumEl.textContent = fmt(cur);
+      if (t < 1) totalAnimRAF = requestAnimationFrame(step);
+    }
+    totalAnimRAF = requestAnimationFrame(step);
+  }
+
+  // ---- 時間格式 ----
+  function timeStr(ts) {
+    const d = new Date(ts);
+    const pad = (x) => String(x).padStart(2, '0');
+    return `${pad(d.getHours())}:${pad(d.getMinutes())}`;
+  }
+
+  // ---- 渲染卡片牆 ----
+  function renderWall() {
+    const cards = state.donations.slice(0, CONFIG.MAX_CARDS);
+    if (cards.length === 0) {
+      wallGrid.innerHTML = `
+        <div class="empty">
+          <div class="empty-icon">❦</div>
+          <div>感謝牆等待第一筆愛心</div>
+        </div>`;
+      return;
+    }
+    wallGrid.innerHTML = cards.map(d => `
+      <div class="card" data-id="${d.id}">
+        <div>
+          <div class="donor">${escapeHtml(d.name)}</div>
+          <div class="item">${escapeHtml(d.item || '愛心捐贈')}</div>
+        </div>
+        <div>
+          <div class="amount">${escapeHtml(d.amountText)}</div>
+          <div class="time">${timeStr(d.ts)} 入帳</div>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  // ---- 渲染跑馬燈 ----
+  function renderMarquee() {
+    const items = state.donations.slice(0, CONFIG.MAX_MARQUEE);
+    if (items.length === 0) {
+      marqueeTrack.innerHTML = `
+        <div class="m-item"><span class="m-heart">♥</span>
+        <span class="m-name">校慶當日捐款將即時顯示於此</span></div>`;
+      return;
+    }
+    // 重複兩次以做無縫滾動
+    const oneRound = items.map(d => `
+      <div class="m-item">
+        <span class="m-heart">♥</span>
+        <span class="m-name">${escapeHtml(d.name)}</span>
+        <span>${escapeHtml(d.item || '愛心捐贈')}</span>
+        <span class="m-amount">${escapeHtml(d.amountText)}</span>
+      </div>
+    `).join('');
+    marqueeTrack.innerHTML = oneRound + oneRound;
+  }
+
+  // ---- 新捐款彈窗（排隊播放） ----
+  function queuePopup(d) {
+    state.popupQueue.push(d);
+    drainPopupQueue();
+  }
+  function drainPopupQueue() {
+    if (state.popupShowing) return;
+    const d = state.popupQueue.shift();
+    if (!d) return;
+    state.popupShowing = true;
+    popupName.textContent = d.name;
+    popupItem.textContent = d.item || '愛心捐贈';
+    popupAmount.textContent = d.amountText;
+    popup.classList.add('show');
+    setTimeout(() => {
+      popup.classList.remove('show');
+      setTimeout(() => {
+        state.popupShowing = false;
+        drainPopupQueue();
+      }, 600);
+    }, CONFIG.POPUP_DURATION_MS);
+  }
+
+  // ---- 取得資料 ----
+  async function fetchData() {
+    if (CONFIG.DEMO_MODE && !CONFIG.GAS_URL) {
+      return getDemoData();
+    }
+    const url = CONFIG.GAS_URL + '?t=' + Date.now();
+    const res = await fetch(url, { cache: 'no-store' });
+    if (!res.ok) throw new Error('HTTP ' + res.status);
+    const data = await res.json();
+    if (!data.ok) throw new Error(data.error || 'unknown error');
+    return data;
+  }
+
+  // ---- 主流程：拉資料、比對、更新畫面 ----
+  async function tick() {
+    try {
+      const data = await fetchData();
+
+      // 找出新資料
+      const newOnes = [];
+      data.donations.forEach(d => {
+        if (!state.knownIds.has(d.id)) {
+          newOnes.push(d);
+          state.knownIds.add(d.id);
+        }
+      });
+
+      // 更新總額（動畫滾動）
+      if (data.totalAmount !== state.totalAmount) {
+        animateTotal(state.totalAmount, data.totalAmount);
+        state.totalAmount = data.totalAmount;
+      }
+      totalCountEl.textContent = data.totalCount;
+      state.totalCount = data.totalCount;
+
+      // 替換捐款列表
+      state.donations = data.donations;
+      renderWall();
+      renderMarquee();
+
+      // 第一次載入不彈窗，避免一次彈一堆
+      if (state.initialized && newOnes.length > 0) {
+        // 只彈最新的一筆（避免一次塞爆）
+        newOnes.slice(0, 1).forEach(queuePopup);
+      }
+      state.initialized = true;
+
+      // 連線狀態
+      statusEl.classList.remove('error');
+      statusText.textContent = `已連線 ・ ${new Date().toLocaleTimeString('zh-TW', {hour12:false})}`;
+    } catch (err) {
+      console.error('[感謝牆] 拉取失敗', err);
+      statusEl.classList.add('error');
+      statusText.textContent = `連線異常：${err.message}`;
+    }
+  }
+
+  // ---- HTML escape ----
+  function escapeHtml(s) {
+    return String(s == null ? '' : s)
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  /* ============================================================
+     Demo 模式：用假資料示範效果（GAS_URL 為空時自動啟用）
+     ============================================================ */
+  let demoCounter = 0;
+  const demoNames = [
+    '王大明', '陳麗華', '林志強家長',
+    '香山扶輪社', '李美玲女士', '校友會',
+    '張俊雄先生', '善心人士', '黃媽媽',
+    '吳爸爸', '呂宗翰先生', '蔡淑芬老師',
+    '六年甲班家長', '內湖里里長', '老謝水電行',
+    '徐家全體', '不具名校友'
+  ];
+  const demoItems = [
+    '校慶活動贊助', '圖書室藏書基金', '運動器材',
+    '學生獎助學金', '教學設備添購', '畢業典禮蛋糕',
+    '愛心餐券 50 份', '校園植栽認養', '冷氣電費贊助',
+    '校慶舞台音響', '學生點心經費', '科展材料費'
+  ];
+  const demoAmounts = [500, 1000, 2000, 3000, 5000, 8000, 10000, 12000, 20000, 50000];
+
+  function chineseAmt(n) {
+    if (n === 0) return '零元整';
+    const digits = '零壹貳參肆伍陸柒捌玖';
+    const small = ['', '拾', '佰', '仟'];
+    const big = ['', '萬', '億'];
+    const groups = [];
+    let x = n;
+    while (x > 0) { groups.push(x % 10000); x = Math.floor(x / 10000); }
+    function four(g) {
+      if (g === 0) return { text: '', leadingZero: true };
+      let s = '', zf = false, st = false, lz = false;
+      for (let i = 3; i >= 0; i--) {
+        const d = Math.floor(g / Math.pow(10, i)) % 10;
+        if (d === 0) { zf = true; if (!st) lz = true; }
+        else { if (zf && st) s += '零'; s += digits[d] + small[i]; zf = false; st = true; }
+      }
+      return { text: s, leadingZero: lz };
+    }
+    let r = '';
+    for (let i = groups.length - 1; i >= 0; i--) {
+      const p = four(groups[i]);
+      if (p.text) {
+        if (r && p.leadingZero && !r.endsWith('零')) r += '零';
+        r += p.text + big[i];
+      } else if (r && i > 0 && !r.endsWith('零')) r += '零';
+    }
+    return r.replace(/零+$/, '') + '元整';
+  }
+
+  function getDemoData() {
+    // 第一次：給 8 筆假資料
+    if (!state.demoData) {
+      state.demoData = [];
+      const now = Date.now();
+      for (let i = 0; i < 8; i++) {
+        const amt = demoAmounts[Math.floor(Math.random() * demoAmounts.length)];
+        state.demoData.push({
+          id: 'demo' + i,
+          ts: now - (8 - i) * 60000,
+          name: demoNames[Math.floor(Math.random() * demoNames.length)],
+          item: demoItems[Math.floor(Math.random() * demoItems.length)],
+          amount: amt,
+          amountText: chineseAmt(amt)
+        });
+      }
+    } else {
+      // 之後每次有 30% 機率新增一筆，模擬即時捐款
+      if (Math.random() < 0.4 && state.demoData.length < 30) {
+        demoCounter++;
+        const amt = demoAmounts[Math.floor(Math.random() * demoAmounts.length)];
+        state.demoData.unshift({
+          id: 'demo_new_' + demoCounter,
+          ts: Date.now(),
+          name: demoNames[Math.floor(Math.random() * demoNames.length)],
+          item: demoItems[Math.floor(Math.random() * demoItems.length)],
+          amount: amt,
+          amountText: chineseAmt(amt)
+        });
+      }
+    }
+    const total = state.demoData.reduce((s, d) => s + d.amount, 0);
+    return {
+      ok: true,
+      serverTime: Date.now(),
+      totalAmount: total,
+      totalCount: state.demoData.length,
+      donations: [...state.demoData].sort((a, b) => b.ts - a.ts)
+    };
+  }
+
+  // ---- 啟動 ----
+  if (CONFIG.DEMO_MODE && !CONFIG.GAS_URL) {
+    statusText.textContent = 'DEMO 模式（未設定 GAS_URL）';
+  }
+  tick();
+  setInterval(tick, CONFIG.POLL_INTERVAL_MS);
+
+  // 在 demo 模式下加快輪詢，方便看效果
+  if (CONFIG.DEMO_MODE && !CONFIG.GAS_URL) {
+    setInterval(tick, 4000);
+  }
+</script>
+</body>
+</html>
