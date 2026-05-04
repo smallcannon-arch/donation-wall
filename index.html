@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>內湖國小校慶 ・ 感謝捐款牆</title>
+<title>新竹市香山區內湖國小校慶 ・ 感謝捐款牆</title>
 
 <!-- 字體：Noto Serif TC（標題）、霞鶩文楷（手寫感）、Caveat（英數手寫） -->
 <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -102,10 +102,10 @@
   .school-info .school-name {
     font-family: var(--font-display);
     font-weight: 900;
-    font-size: clamp(24px, 2.2vw, 38px);
+    font-size: clamp(20px, 1.8vw, 32px);
     color: var(--brick-deep);
-    letter-spacing: 4px;
-    line-height: 1.1;
+    letter-spacing: 2px;
+    line-height: 1.15;
   }
   .school-info .school-sub {
     font-family: var(--font-hand);
@@ -156,7 +156,7 @@
   .total-amount {
     font-family: var(--font-display);
     font-weight: 900;
-    font-size: clamp(36px, 3.4vw, 60px);
+    font-size: clamp(32px, 2.8vw, 50px);
     color: var(--brick);
     line-height: 1;
     letter-spacing: 1px;
@@ -290,11 +290,7 @@
   }
 
   .card .time {
-    font-family: var(--font-hand);
-    font-size: clamp(12px, 0.85vw, 15px);
-    color: var(--olive);
-    margin-top: 6px;
-    letter-spacing: 1px;
+    display: none;
   }
 
   /* 新卡片進場動畫 */
@@ -486,8 +482,8 @@
   <!-- 頂部 -->
   <div class="header">
     <div class="school-info">
-      <div class="school-name">內湖國民小學</div>
-      <div class="school-sub">Hsinchu City Neihu Elementary School</div>
+      <div class="school-name">新竹市香山區內湖國小</div>
+      <div class="school-sub">Hsinchu City, Nei Hu Primary School</div>
     </div>
     <div class="title-center">
       <div class="title-main">校慶感謝牆</div>
@@ -544,7 +540,7 @@
      ============================================================ */
   const CONFIG = {
     // 部署後填入：https://script.google.com/macros/s/.../exec
-    GAS_URL: 'https://script.google.com/macros/s/AKfycbzn_UO614Go-WJLDHQjgsy-1bVml3xPUFojsK1piPe5d-4pcGNwpMEgHVaSvhxeX_kE/exec',
+    GAS_URL: '',
 
     POLL_INTERVAL_MS: 15000,   // 輪詢間隔（毫秒）
     MAX_CARDS: 12,             // 牆上最多顯示幾張卡片
@@ -599,13 +595,6 @@
     totalAnimRAF = requestAnimationFrame(step);
   }
 
-  // ---- 時間格式 ----
-  function timeStr(ts) {
-    const d = new Date(ts);
-    const pad = (x) => String(x).padStart(2, '0');
-    return `${pad(d.getHours())}:${pad(d.getMinutes())}`;
-  }
-
   // ---- 渲染卡片牆 ----
   function renderWall() {
     const cards = state.donations.slice(0, CONFIG.MAX_CARDS);
@@ -625,7 +614,6 @@
         </div>
         <div>
           <div class="amount">${escapeHtml(d.amountText)}</div>
-          <div class="time">${timeStr(d.ts)} 入帳</div>
         </div>
       </div>
     `).join('');
@@ -751,7 +739,7 @@
     '香山扶輪社', '李美玲女士', '校友會',
     '張俊雄先生', '善心人士', '黃媽媽',
     '吳爸爸', '呂宗翰先生', '蔡淑芬老師',
-    '六年甲班家長', '內湖里里長', '老謝水電行',
+    '六年甲班家長', '香山里里長', '老謝水電行',
     '徐家全體', '不具名校友'
   ];
   const demoItems = [
@@ -761,6 +749,15 @@
     '校慶舞台音響', '學生點心經費', '科展材料費'
   ];
   const demoAmounts = [500, 1000, 2000, 3000, 5000, 8000, 10000, 12000, 20000, 50000];
+
+  // 物品捐贈樣本：[物品名, 估值（0 表示純物品不估值）]
+  const demoGoods = [
+    ['花籃一對', 0],
+    ['蘭花盆栽', 3000],
+    ['校慶蛋糕', 0],
+    ['運動會獎品一批', 5000],
+    ['手作香皂 100 份', 0]
+  ];
 
   function chineseAmt(n) {
     if (n === 0) return '零元整';
@@ -791,35 +788,49 @@
     return r.replace(/零+$/, '') + '元整';
   }
 
+  // 產生一筆 demo 捐款（依機率混合現金/物品/混合三種情境）
+  function makeDemoDonation(id, rowNum) {
+    const dice = Math.random();
+    const name = demoNames[Math.floor(Math.random() * demoNames.length)];
+    const item = demoItems[Math.floor(Math.random() * demoItems.length)];
+    let amt = 0;
+    let goods = '';
+    let amountText = '';
+
+    if (dice < 0.7) {
+      // 70%：純現金
+      amt = demoAmounts[Math.floor(Math.random() * demoAmounts.length)];
+      amountText = chineseAmt(amt);
+    } else {
+      // 30%：物品
+      const g = demoGoods[Math.floor(Math.random() * demoGoods.length)];
+      goods = g[0];
+      amt = g[1];
+      if (amt > 0) {
+        amountText = `${goods} ・ 等值${chineseAmt(amt)}`;
+      } else {
+        amountText = goods;
+      }
+    }
+
+    return { id, rowNum, name, item, amount: amt, goods, amountText };
+  }
+
   function getDemoData() {
     // 第一次：給 8 筆假資料
     if (!state.demoData) {
       state.demoData = [];
-      const now = Date.now();
       for (let i = 0; i < 8; i++) {
-        const amt = demoAmounts[Math.floor(Math.random() * demoAmounts.length)];
-        state.demoData.push({
-          id: 'demo' + i,
-          ts: now - (8 - i) * 60000,
-          name: demoNames[Math.floor(Math.random() * demoNames.length)],
-          item: demoItems[Math.floor(Math.random() * demoItems.length)],
-          amount: amt,
-          amountText: chineseAmt(amt)
-        });
+        state.demoData.push(makeDemoDonation('demo' + i, i + 2));  // 模擬列號從 2 開始
       }
+      state.demoNextRow = 10;  // 下一筆從第 10 列開始
     } else {
-      // 之後每次有 30% 機率新增一筆，模擬即時捐款
+      // 之後每次有 40% 機率新增一筆，模擬即時捐款
       if (Math.random() < 0.4 && state.demoData.length < 30) {
         demoCounter++;
-        const amt = demoAmounts[Math.floor(Math.random() * demoAmounts.length)];
-        state.demoData.unshift({
-          id: 'demo_new_' + demoCounter,
-          ts: Date.now(),
-          name: demoNames[Math.floor(Math.random() * demoNames.length)],
-          item: demoItems[Math.floor(Math.random() * demoItems.length)],
-          amount: amt,
-          amountText: chineseAmt(amt)
-        });
+        state.demoData.push(
+          makeDemoDonation('demo_new_' + demoCounter, state.demoNextRow++)
+        );
       }
     }
     const total = state.demoData.reduce((s, d) => s + d.amount, 0);
@@ -828,7 +839,7 @@
       serverTime: Date.now(),
       totalAmount: total,
       totalCount: state.demoData.length,
-      donations: [...state.demoData].sort((a, b) => b.ts - a.ts)
+      donations: [...state.demoData].sort((a, b) => b.rowNum - a.rowNum)
     };
   }
 
